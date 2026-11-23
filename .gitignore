@@ -1,0 +1,15 @@
+# banco de dados local (dados pessoais: nunca enviar ao GitHub)
+data/
+*.db
+*.db-journal
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# editores e sistema
+.vscode/
+.idea/
+.DS_Store
