@@ -4,6 +4,10 @@ Aplicativo web simples para controle pessoal de **treinos e atividades físicas*
 
 Projeto comunitário, gratuito e sem fins lucrativos. Desenvolvido como trabalho da faculdade de Gestão de TI.
 
+**App no ar (demonstração):** https://corpo-em-dia.onrender.com
+
+O serviço gratuito "dorme" quando ninguém usa: o primeiro acesso pode demorar cerca de 1 minuto, e os dados voltam aos de exemplo. Detalhes em [Publicar na internet](#publicar-na-internet-demonstração).
+
 ## Tecnologias
 
 | Camada | Tecnologia | Papel |
