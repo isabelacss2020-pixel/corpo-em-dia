@@ -98,8 +98,11 @@ Erros de validação voltam com status 400 e `{"erro": "mensagem em português"}
 
 ```
 corpo-em-dia/
-├── app.py                 # inicia o servidor
+├── app.py                 # inicia o servidor no seu computador
+├── wsgi.py                # entrada para servidores de produção (gunicorn)
+├── render.yaml            # configuração de publicação no Render
 ├── requirements.txt
+├── LICENSE
 ├── backend/
 │   ├── __init__.py        # cria a aplicação Flask
 │   ├── banco.py           # conexão SQLite e leitura dos arquivos .sql
@@ -127,18 +130,36 @@ corpo-em-dia/
 - **Sem etapa de build** no front-end, para facilitar a manutenção por voluntários.
 - Textos digitados pelo usuário são escapados antes de ir para a tela.
 
+## Publicar na internet (demonstração)
+
+O projeto já vem pronto para o [Render](https://render.com), que tem plano gratuito para Python.
+
+1. Crie uma conta no Render e conecte a sua conta do GitHub.
+2. No painel, clique em **New +** e depois em **Blueprint**. Escolha este repositório. O Render lê o arquivo `render.yaml` e configura tudo.
+3. Aguarde o serviço ficar **Live** e copie o endereço (algo como `https://corpo-em-dia-xxxx.onrender.com`).
+
+Se preferir configurar à mão, em **New + → Web Service** use: *Build Command* `pip install -r requirements.txt gunicorn`, *Start Command* `gunicorn wsgi:app --workers 1 --threads 4 --bind 0.0.0.0:$PORT` e plano **Free**.
+
+Como o plano gratuito funciona (segundo a [documentação do Render](https://render.com/docs/free)):
+
+- Depois de **15 minutos sem acessos** o serviço "dorme". O primeiro acesso seguinte demora **cerca de 1 minuto** para acordar.
+- O arquivo do banco SQLite **é apagado** a cada reinício. Na versão publicada, os dados voltam aos de exemplo depois que o serviço dorme.
+- Todas as pessoas que abrem o endereço veem e alteram **o mesmo banco**.
+
+Por isso a versão publicada serve para **demonstração**. Para guardar dados de verdade, o próximo passo seria usar um banco que não seja apagado (por exemplo, PostgreSQL) e contas de usuário.
+
 ## Limitações
 
 - Cada instalação guarda **um único perfil**. Para uso comunitário, cada pessoa roda a sua cópia, ou o projeto evolui para ter contas de usuário.
-- O servidor do Flask usado aqui serve para uso local. Para publicar na internet, use um servidor próprio para produção e proteja o acesso com login.
-- O **GitHub Pages não executa Python**: no GitHub ficam o código e a documentação, e o app roda na máquina de quem o usa.
+- O servidor do Flask (`python app.py`) serve para uso local. Na internet, o app usa o `gunicorn`, e o acesso ainda deveria ser protegido por login.
+- O **GitHub Pages não executa Python**: no GitHub ficam o código e a documentação.
 
 ## Próximos passos possíveis
 
 - Contas de usuário e login.
+- Banco de dados permanente na versão publicada.
 - Exportar e importar os dados (backup).
 - Lembretes para treinar e pesar.
-- Hospedagem em um serviço que rode Python.
 
 ## Aviso
 
@@ -146,4 +167,6 @@ O app é apenas um diário de acompanhamento. O IMC e as demais informações s�
 
 ## Licença
 
-Sugestão: MIT. Adicione um arquivo `LICENSE` ao repositório antes de publicar.
+Distribuído sob a licença MIT. Veja o arquivo [`LICENSE`](LICENSE).
+
+Autora: Isabela de Carvalho Sá Santana.
